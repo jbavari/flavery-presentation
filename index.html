@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Flavery</title>
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
@@ -20,12 +20,134 @@
 			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
 			document.getElementsByTagName( 'head' )[0].appendChild( link );
 		</script>
+    <script src="js/jquery-3.0.0.min.js"></script>
 	</head>
 	<body>
+    <div id="player"></div>
+
+        <script>
+          // 2. This code loads the IFrame Player API code asynchronously.
+          var tag = document.createElement('script');
+
+          tag.src = "https://www.youtube.com/iframe_api";
+          var firstScriptTag = document.getElementsByTagName('script')[0];
+          firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+          // 3. This function creates an <iframe> (and YouTube player)
+          //    after the API code downloads.
+          var player;
+          function onYouTubeIframeAPIReady() {
+            player = new YT.Player('player', {
+              height: '250',
+              width: '250',
+              videoId: 'QUvVdTlA23w',
+              showinfo: 0,
+              startSeconds: 9,
+              playerVars: {
+                controls: 0,
+                showinfo: 0
+              },
+              events: {
+                'onReady': onPlayerReady,
+                'onStateChange': onPlayerStateChange
+              }
+            });
+          }
+
+          // 4. The API will call this function when the video player is ready.
+          function onPlayerReady(event) {
+            // event.target.playVideo();
+          }
+
+          // 5. The API calls this function when the player's state changes.
+          //    The function indicates that when playing a video (state=1),
+          //    the player should play for six seconds and then stop.
+          var done = false;
+          function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING && !done) {
+              // setTimeout(stopVideo, 6000);
+              done = true;
+            }
+          }
+          function stopVideo() {
+            player.stopVideo();
+          }
+        </script>
+
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+          <img src="img/Avery_Brewing_Company_logo.jpg"/>
+          <br/>
+          Flavery
+        </section>
+				<section>
+          <p>
+          We hope we don't sound arrogant when we say... this is the greatest app in the world.
+          </p>
+        </section>
+        <section>
+          <h4>The why</h4>
+          <p>
+            The point is not merely to incentivize laser-focused key target markets. The point is to deploy strategic, bottom-up, visionary and cost-effective local-for-local strategies.
+          </p>
+        </section>
+        <section>
+          <h4>The approach</h4>
+          <p>
+            A local-for-local strategy architects our up-sell message, while the Chief Legal Officer mitigates our threats. The constructive performance cultures dramatically influence siloed architectural approaches by thinking and acting beyond boundaries. The stakeholders integrate a significant shift in value.
+          </p>
+        </section>
+        <section>
+          <h4>Thought leadering</h4>
+          <p>
+            The pioneers re-aggregate our executive talent. Above-average dotted lines promote extensible aspirations.
+          </p>
+        </section>
+        <section>
+          <h4>Escaping the barrel</h4>
+          <p>
+            The powerful champion innovates the high-level quality by thinking outside of the barrel.
+          </p>
+        </section>
+        <section>
+          <h4>Change from within</h4>
+          <p>
+            The senior support staff deploys the market environment.
+          </p>
+        </section>
+        <section>
+          <h4>Committment</h4>
+          <p>
+          The President of Client Relationship analyses the actionable, cross-functional, commitment.
+          </p>
+        </section>
+        <section>
+          <h4>You've seen this board before</h4>
+          <img src="avery_lower_tap_room.jpg"/>
+        </section>
+        <section>
+          <h4>Now see *this* board</h4>
+          <img src="avery_lower_tap_room_dash.png"/>
+        </section>
+        <section>
+          <h4>It's even mobile! Much wow</h4>
+          <img src="mobile.png"/>
+        </section>
+        <section>
+          <h4>We used the following APIs</h4>
+          <ul>
+            <li>Beer flow API</li>
+            <li>Mac OS X Say command</li>
+            <li>JavaScripts</li>
+            <li>JavaBeans (some functional)</li>
+            <li>Pure Functional - no side effects</li>
+          </ul>
+        </section>
+        <section>
+          <h4>Questions?</h4>
+          <h5>We didn't think so</h5>
+        </section>
 			</div>
 		</div>
 
@@ -45,6 +167,19 @@
 					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
 				]
 			});
+
+      Reveal.addEventListener( 'slidechanged', function( event ) {
+        var currSlide = event.currentSlide;
+        var paragraph = $(event.currentSlide).find('p').html();
+        $.ajax('/say?say=' + paragraph);
+      } );
 		</script>
+    <style>
+    #player{
+      position: fixed;
+      opacity: .5;
+      z-index: 1000;
+    }
+    </style>
 	</body>
 </html>
